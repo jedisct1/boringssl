@@ -543,6 +543,7 @@ static enum ssl_hs_wait_t do_select_session(SSL_HANDSHAKE *hs) {
   ssl->method->next_message(ssl);
   hs->ech_client_hello_buf.Reset();
   hs->tls13_state = state13_send_server_hello;
+
   return ssl_hs_ok;
 }
 

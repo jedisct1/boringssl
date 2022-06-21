@@ -346,6 +346,7 @@ bool SSLAEADContext::SealScatter(uint8_t *out_prefix, uint8_t *out,
   uint8_t nonce[EVP_AEAD_MAX_NONCE_LENGTH];
   size_t nonce_len = 0;
 
+
   // Prepend the fixed nonce, or left-pad with zeros if XORing.
   if (xor_fixed_nonce_) {
     nonce_len = fixed_nonce_len_ - variable_nonce_len_;

@@ -139,7 +139,6 @@ int tls_write_app_data(SSL *ssl, bool *out_needs_handshake, const uint8_t *in,
     OPENSSL_PUT_ERROR(SSL, SSL_R_PROTOCOL_IS_SHUTDOWN);
     return -1;
   }
-
   // TODO(davidben): Switch this logic to |size_t| and |bssl::Span|.
   assert(ssl->s3->wnum <= INT_MAX);
   unsigned tot = ssl->s3->wnum;

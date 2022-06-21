@@ -95,7 +95,6 @@
 #include "../crypto/internal.h"
 #include "internal.h"
 
-
 BSSL_NAMESPACE_BEGIN
 
 // An SSL_SESSION is serialized as the following ASN.1 structure:
@@ -210,6 +209,7 @@ static int SSL_SESSION_to_bytes_full(const SSL_SESSION *in, CBB *cbb,
   }
 
   CBB session, child, child2;
+    (void) child2;
   if (!CBB_add_asn1(cbb, &session, CBS_ASN1_SEQUENCE) ||
       !CBB_add_asn1_uint64(&session, kVersion) ||
       !CBB_add_asn1_uint64(&session, in->ssl_version) ||
@@ -220,13 +220,12 @@ static int SSL_SESSION_to_bytes_full(const SSL_SESSION *in, CBB *cbb,
                                  for_ticket ? 0 : in->session_id_length) ||
       !CBB_add_asn1_octet_string(&session, in->secret, in->secret_length) ||
       !CBB_add_asn1(&session, &child, kTimeTag) ||
-      !CBB_add_asn1_uint64(&child, in->time) ||
+      !CBB_add_asn1_uint64(&child, in->time ) ||
       !CBB_add_asn1(&session, &child, kTimeoutTag) ||
       !CBB_add_asn1_uint64(&child, in->timeout)) {
     OPENSSL_PUT_ERROR(SSL, ERR_R_MALLOC_FAILURE);
     return 0;
   }
-
   // The peer certificate is only serialized if the SHA-256 isn't
   // serialized instead.
   if (sk_CRYPTO_BUFFER_num(in->certs.get()) > 0 && !in->peer_sha256_valid) {
@@ -235,6 +234,7 @@ static int SSL_SESSION_to_bytes_full(const SSL_SESSION *in, CBB *cbb,
         !CBB_add_bytes(&child, CRYPTO_BUFFER_data(buffer),
                        CRYPTO_BUFFER_len(buffer))) {
       OPENSSL_PUT_ERROR(SSL, ERR_R_MALLOC_FAILURE);
+
       return 0;
     }
   }
@@ -254,7 +254,6 @@ static int SSL_SESSION_to_bytes_full(const SSL_SESSION *in, CBB *cbb,
       return 0;
     }
   }
-
   if (in->psk_identity) {
     if (!CBB_add_asn1(&session, &child, kPSKIdentityTag) ||
         !CBB_add_asn1_octet_string(&child,

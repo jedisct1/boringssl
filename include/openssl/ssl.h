@@ -171,6 +171,12 @@ struct timeval;
 extern "C" {
 #endif
 
+// Custom additions
+
+OPENSSL_EXPORT int SSL_serialize_entire_state(SSL *ssl, CBB *out);
+OPENSSL_EXPORT int SSL_deserialize_entire_state(SSL *ssl,
+                                                const uint8_t *handback,
+                                                const size_t handback_len);
 
 // SSL implementation.
 
@@ -5300,7 +5306,6 @@ OPENSSL_EXPORT int SSL_set_compliance_policy(
 }  // extern C
 
 #if !defined(BORINGSSL_NO_CXX)
-
 extern "C++" {
 
 BSSL_NAMESPACE_BEGIN

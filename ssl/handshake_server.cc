@@ -1888,7 +1888,6 @@ enum ssl_hs_wait_t ssl_server_handshake(SSL_HANDSHAKE *hs) {
       return ret;
     }
   }
-
   ssl_do_info_callback(hs->ssl, SSL_CB_HANDSHAKE_DONE, 1);
   return ssl_hs_ok;
 }

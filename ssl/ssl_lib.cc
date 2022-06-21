@@ -852,8 +852,8 @@ int SSL_do_handshake(SSL *ssl) {
 
   // Destroy the handshake object if the handshake has completely finished.
   if (!early_return) {
-    ssl->s3->hs.reset();
-    ssl_maybe_shed_handshake_config(ssl);
+// XXX - JEDI    ssl->s3->hs.reset();
+// XXX - JEDI    ssl_maybe_shed_handshake_config(ssl);
   }
 
   return 1;
@@ -1071,7 +1071,6 @@ int SSL_write(SSL *ssl, const void *buf, int num) {
         return -1;
       }
     }
-
     ret = ssl->method->write_app_data(ssl, &needs_handshake,
                                       (const uint8_t *)buf, num);
   } while (needs_handshake);
