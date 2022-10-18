@@ -838,6 +838,8 @@ BSSL_NAMESPACE_BEGIN
 #define SSL_AES128GCM 0x00000008u
 #define SSL_AES256GCM 0x00000010u
 #define SSL_CHACHA20POLY1305 0x00000020u
+#define SSL_AEGIS256  0x00000040u
+#define SSL_AEGIS128L 0x00000080u
 
 #define SSL_AES (SSL_AES128 | SSL_AES256 | SSL_AES128GCM | SSL_AES256GCM)
 
@@ -851,9 +853,10 @@ BSSL_NAMESPACE_BEGIN
 #define SSL_HANDSHAKE_MAC_DEFAULT 0x1
 #define SSL_HANDSHAKE_MAC_SHA256 0x2
 #define SSL_HANDSHAKE_MAC_SHA384 0x4
+#define SSL_HANDSHAKE_MAC_SHA512 0x8
 
-// SSL_MAX_MD_SIZE is size of the largest hash function used in TLS, SHA-384.
-#define SSL_MAX_MD_SIZE 48
+// SSL_MAX_MD_SIZE is size of the largest hash function used in TLS, SHA-512.
+#define SSL_MAX_MD_SIZE 64
 
 // An SSLCipherPreferenceList contains a list of SSL_CIPHERs with equal-
 // preference groups. For TLS clients, the groups are moot because the server
@@ -1167,7 +1170,7 @@ class SSLAEADContext {
   ScopedEVP_AEAD_CTX ctx_;
   // fixed_nonce_ contains any bytes of the nonce that are fixed for all
   // records.
-  InplaceVector<uint8_t, 12> fixed_nonce_;
+  InplaceVector<uint8_t, EVP_AEAD_MAX_NONCE_LENGTH> fixed_nonce_;
   uint8_t variable_nonce_len_ = 0;
   // variable_nonce_included_in_record_ is true if the variable nonce
   // for a record is included as a prefix before the ciphertext.

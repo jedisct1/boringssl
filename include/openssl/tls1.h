@@ -459,6 +459,10 @@ extern "C" {
 #define TLS1_3_CK_AES_256_GCM_SHA384 0x03001302
 #define TLS1_3_CK_CHACHA20_POLY1305_SHA256 0x03001303
 
+// Experimental ciphersuites from draft-irtf-cfrg-aegis-aead
+#define TLS1_3_CK_AEGIS_256_SHA512 0x03001306
+#define TLS1_3_CK_AEGIS_128L_SHA256 0x03001307
+
 // The following constants are legacy aliases of |TLS1_3_CK_*|.
 // TODO(davidben): Migrate callers to the new name and remove these.
 #define TLS1_CK_AES_128_GCM_SHA256 TLS1_3_CK_AES_128_GCM_SHA256
@@ -638,6 +642,10 @@ extern "C" {
 #define TLS1_3_RFC_AES_128_GCM_SHA256 "TLS_AES_128_GCM_SHA256"
 #define TLS1_3_RFC_AES_256_GCM_SHA384 "TLS_AES_256_GCM_SHA384"
 #define TLS1_3_RFC_CHACHA20_POLY1305_SHA256 "TLS_CHACHA20_POLY1305_SHA256"
+
+// Experimental ciphersuites from draft-irtf-cfrg-aegis-aead
+#define TLS1_3_TXT_AEGIS_256_SHA512 "TLS_AEGIS_256_SHA512"
+#define TLS1_3_TXT_AEGIS_128L_SHA256 "TLS_AEGIS_128L_SHA256"
 
 // The following constants are legacy aliases of |TLS1_3_CK_*|.
 // TODO(bbe): Migrate callers to the new name and remove these.

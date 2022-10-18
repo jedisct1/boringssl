@@ -309,6 +309,8 @@ set(
   crypto/chacha/chacha.c
   crypto/cipher_extra/cipher_extra.c
   crypto/cipher_extra/derive_key.c
+  crypto/cipher_extra/e_aegis128l.c
+  crypto/cipher_extra/e_aegis256.c
   crypto/cipher_extra/e_aesctrhmac.c
   crypto/cipher_extra/e_aesgcmsiv.c
   crypto/cipher_extra/e_chacha20poly1305.c

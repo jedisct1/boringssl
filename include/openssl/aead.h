@@ -90,6 +90,12 @@ extern "C" {
 
 // AEAD algorithms.
 
+// AEGIS-128L
+OPENSSL_EXPORT const EVP_AEAD *EVP_aead_aegis_128l(void);
+
+// AEGIS-256
+OPENSSL_EXPORT const EVP_AEAD *EVP_aead_aegis_256(void);
+
 // EVP_aead_aes_128_gcm is AES-128 in Galois Counter Mode.
 //
 // Note: AES-GCM should only be used with 12-byte (96-bit) nonces. Although it
@@ -230,7 +236,7 @@ struct evp_aead_ctx_st {
 
 // EVP_AEAD_MAX_NONCE_LENGTH contains the maximum nonce length used by
 // any AEAD defined in this header.
-#define EVP_AEAD_MAX_NONCE_LENGTH 24
+#define EVP_AEAD_MAX_NONCE_LENGTH 32
 
 // EVP_AEAD_MAX_OVERHEAD contains the maximum overhead used by any AEAD
 // defined in this header.
