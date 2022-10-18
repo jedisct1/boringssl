@@ -601,6 +601,8 @@ BSSL_NAMESPACE_BEGIN
 #define SSL_AES128GCM 0x00000008u
 #define SSL_AES256GCM 0x00000010u
 #define SSL_CHACHA20POLY1305 0x00000020u
+#define SSL_AEGIS256  0x00000040u
+#define SSL_AEGIS128L 0x00000080u
 
 #define SSL_AES (SSL_AES128 | SSL_AES256 | SSL_AES128GCM | SSL_AES256GCM)
 
@@ -932,7 +934,7 @@ class SSLAEADContext {
   ScopedEVP_AEAD_CTX ctx_;
   // fixed_nonce_ contains any bytes of the nonce that are fixed for all
   // records.
-  uint8_t fixed_nonce_[12];
+  uint8_t fixed_nonce_[EVP_AEAD_MAX_NONCE_LENGTH];
   uint8_t fixed_nonce_len_ = 0, variable_nonce_len_ = 0;
   // version_ is the wire version that should be used with this AEAD.
   uint16_t version_;

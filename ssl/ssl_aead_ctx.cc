@@ -115,6 +115,10 @@ UniquePtr<SSLAEADContext> SSLAEADContext::Create(
       // The fixed nonce into the actual nonce (the sequence number).
       aead_ctx->xor_fixed_nonce_ = true;
       aead_ctx->variable_nonce_len_ = 8;
+    } else if ((cipher->algorithm_enc & SSL_AEGIS128L) ||
+               (cipher->algorithm_enc & SSL_AEGIS256)) {
+      aead_ctx->xor_fixed_nonce_ = true;
+      aead_ctx->variable_nonce_len_ = 8;
     } else {
       // The fixed IV is prepended to the nonce.
       assert(fixed_iv.size() <= aead_ctx->variable_nonce_len_);

@@ -665,18 +665,20 @@ class CipherScorer {
  public:
   CipherScorer(bool has_aes_hw) : aes_is_fine_(has_aes_hw) {}
 
-  typedef std::tuple<bool, bool> Score;
+  typedef std::tuple<bool, bool, bool> Score;
 
   // MinScore returns a |Score| that will compare less than the score of all
   // cipher suites.
   Score MinScore() const {
-    return Score(false, false);
+    return Score(false, false, false);
   }
 
   Score Evaluate(const SSL_CIPHER *a) const {
     return Score(
         // Something is always preferable to nothing.
         true,
+        // AEGIS-128L is preferred if AES is fine
+        aes_is_fine_ && a->algorithm_enc == SSL_AEGIS128L,
         // Either AES is fine, or else ChaCha20 is preferred.
         aes_is_fine_ || a->algorithm_enc == SSL_CHACHA20POLY1305);
   }

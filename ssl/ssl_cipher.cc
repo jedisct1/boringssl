@@ -287,6 +287,30 @@ static constexpr SSL_CIPHER kCiphers[] = {
       SSL_HANDSHAKE_MAC_SHA256,
     },
 
+    // Cipher 1306
+    {
+      TLS1_3_TXT_AEGIS_256_SHA384,
+      "TLS_AEGIS_256_SHA384",
+      TLS1_3_CK_AEGIS_256_SHA384,
+      SSL_kGENERIC,
+      SSL_aGENERIC,
+      SSL_AEGIS256,
+      SSL_AEAD,
+      SSL_HANDSHAKE_MAC_SHA384,
+    },
+
+    // Cipher 1307
+    {
+      TLS1_3_TXT_AEGIS_128L_SHA256,
+      "TLS_AEGIS_128L_SHA256",
+      TLS1_3_CK_AEGIS_128L_SHA256,
+      SSL_kGENERIC,
+      SSL_aGENERIC,
+      SSL_AEGIS128L,
+      SSL_AEAD,
+      SSL_HANDSHAKE_MAC_SHA256,
+    },
+
     // Cipher C009
     {
      TLS1_TXT_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
@@ -550,6 +574,10 @@ static const CIPHER_ALIAS kCipherAliases[] = {
      /*include_deprecated=*/false},
     {"CHACHA20", ~0u, ~0u, SSL_CHACHA20POLY1305, ~0u, 0,
      /*include_deprecated=*/false},
+    {"AEGIS128L", ~0u, ~0u, SSL_AEGIS128L, ~0u, 0,
+     /*include_deprecated=*/false},
+    {"AEGIS256", ~0u, ~0u, SSL_AEGIS256, ~0u, 0,
+     /*include_deprecated=*/false},
 
     // MAC aliases
     {"SHA1", ~0u, ~0u, ~0u, SSL_SHA1, 0},
@@ -605,6 +633,9 @@ bool ssl_cipher_get_evp_aead(const EVP_AEAD **out_aead,
       *out_fixed_iv_len = 4;
     } else if (cipher->algorithm_enc == SSL_CHACHA20POLY1305) {
       *out_aead = EVP_aead_chacha20_poly1305();
+      *out_fixed_iv_len = 12;
+    } else if (cipher->algorithm_enc == SSL_AEGIS128L) {
+      *out_aead = EVP_aead_aegis_128l();
       *out_fixed_iv_len = 12;
     } else {
       return false;
@@ -1544,6 +1575,7 @@ int SSL_CIPHER_get_bits(const SSL_CIPHER *cipher, int *out_alg_bits) {
   switch (cipher->algorithm_enc) {
     case SSL_AES128:
     case SSL_AES128GCM:
+    case SSL_AEGIS128L:
       alg_bits = 128;
       strength_bits = 128;
       break;
@@ -1551,6 +1583,7 @@ int SSL_CIPHER_get_bits(const SSL_CIPHER *cipher, int *out_alg_bits) {
     case SSL_AES256:
     case SSL_AES256GCM:
     case SSL_CHACHA20POLY1305:
+    case SSL_AEGIS256:
       alg_bits = 256;
       strength_bits = 256;
       break;
@@ -1649,6 +1682,14 @@ const char *SSL_CIPHER_description(const SSL_CIPHER *cipher, char *buf,
 
     case SSL_CHACHA20POLY1305:
       enc = "ChaCha20-Poly1305";
+      break;
+
+    case SSL_AEGIS128L:
+      enc = "AEGIS-128L";
+      break;
+
+    case SSL_AEGIS256:
+      enc = "AEGIS-256";
       break;
 
     default:

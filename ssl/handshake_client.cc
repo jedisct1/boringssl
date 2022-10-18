@@ -252,6 +252,10 @@ static bool ssl_write_client_cipher_list(const SSL_HANDSHAKE *hs, CBB *out,
          !ssl_add_tls13_cipher(&child,
                                TLS1_3_CK_CHACHA20_POLY1305_SHA256 & 0xffff,
                                ssl->config->tls13_cipher_policy)) ||
+        (has_aes_hw &&  //
+         !ssl_add_tls13_cipher(&child,
+                               TLS1_3_CK_AEGIS_128L_SHA256 & 0xffff,
+                               ssl->config->tls13_cipher_policy)) ||
         !ssl_add_tls13_cipher(&child, TLS1_3_CK_AES_128_GCM_SHA256 & 0xffff,
                               ssl->config->tls13_cipher_policy) ||
         !ssl_add_tls13_cipher(&child, TLS1_3_CK_AES_256_GCM_SHA384 & 0xffff,

@@ -90,6 +90,9 @@ extern "C" {
 
 // AEAD algorithms.
 
+// AEGIS-128L
+OPENSSL_EXPORT const EVP_AEAD *EVP_aead_aegis_128l(void);
+
 // EVP_aead_aes_128_gcm is AES-128 in Galois Counter Mode.
 //
 // Note: AES-GCM should only be used with 12-byte (96-bit) nonces. Although it
