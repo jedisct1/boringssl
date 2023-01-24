@@ -166,6 +166,12 @@ struct timeval;
 extern "C" {
 #endif
 
+// Custom additions
+
+OPENSSL_EXPORT int SSL_serialize_entire_state(SSL *ssl, CBB *out);
+OPENSSL_EXPORT int SSL_deserialize_entire_state(SSL *ssl,
+                                                const uint8_t *handback,
+                                                const size_t handback_len);
 
 // SSL implementation.
 

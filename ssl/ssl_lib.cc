@@ -855,11 +855,14 @@ int SSL_do_handshake(SSL *ssl) {
     return ret;
   }
 
+  // For TLS mobility, we have to keep the handshake object around, in case we want to serialize the state later.
+#ifdef DISABLE_TLS_MOBILITY
   // Destroy the handshake object if the handshake has completely finished.
   if (!early_return) {
     ssl->s3->hs.reset();
     ssl_maybe_shed_handshake_config(ssl);
   }
+#endif
 
   return 1;
 }

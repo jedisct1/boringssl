@@ -1681,7 +1681,8 @@ enum handback_t {
   handback_after_ecdhe = 1,
   handback_after_handshake = 2,
   handback_tls13 = 3,
-  handback_max_value = handback_tls13,
+  handback_done = 4,
+  handback_max_value = handback_done,
 };
 
 // SSL_HANDSHAKE_HINTS contains handshake hints for a connection. See
