@@ -407,10 +407,10 @@ struct cbb_buffer_st {
   size_t cap;
   // can_resize is one iff |buf| is owned by this object. If not then |buf|
   // cannot be resized.
-  unsigned can_resize : 1;
+  unsigned can_resize;
   // error is one if there was an error writing to this CBB. All future
   // operations will fail.
-  unsigned error : 1;
+  unsigned error;
 };
 
 struct cbb_child_st {
@@ -422,7 +422,7 @@ struct cbb_child_st {
   // pending_len_len contains the number of bytes in this |CBB|'s pending
   // length-prefix, or zero if no length-prefix is pending.
   uint8_t pending_len_len;
-  unsigned pending_is_asn1 : 1;
+  unsigned pending_is_asn1;
 };
 
 struct cbb_st {
